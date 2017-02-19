@@ -20,28 +20,28 @@ scratch.UserSession.load(function (err, user) {
 	if (err) {
 		return err;
 	}
-	user.cloudSession(145492790, function (err, cloud) {
-		ws.on('updatePos', function (msg) {
-			var size = [...msg.size];
-			size = size[0] + ' ' + size[1];
-			cloud.set('☁ size', encrypt(size));
-			msg = msg.snakes;
-			var positions = '';
-			for (var i = 0; i < msg.length; i++) {
-				var snakePos = '';
-				for (var j = 0; j < msg[i].location.length; j++) {
-					var loc = msg[i].location[j];
-					for (var k = 0; k < loc.length; k++) {
-						for (var l = 0; l < loc[k].toString().length; l++) {
-							snakePos += encrypt(loc[k].toString()[l]);
-						}
-						if (k < loc.length - 1) snakePos += encrypt(',');
-						else if (j < msg[i].location.length - 1) snakePos += encrypt(':');
-						else if (i < msg.length - 1) snakePos += encrypt(' ');
+	ws.on('updatePos', function (msg) {
+		var size = [...msg.size];
+		size = size[0] + ' ' + size[1];
+		msg = msg.snakes;
+		var positions = '';
+		for (var i = 0; i < msg.length; i++) {
+			var snakePos = '';
+			for (var j = 0; j < msg[i].location.length; j++) {
+				var loc = msg[i].location[j];
+				for (var k = 0; k < loc.length; k++) {
+					for (var l = 0; l < loc[k].toString().length; l++) {
+						snakePos += encrypt(loc[k].toString()[l]);
 					}
+					if (k < loc.length - 1) snakePos += encrypt(',');
+					else if (j < msg[i].location.length - 1) snakePos += encrypt(':');
+					else if (i < msg.length - 1) snakePos += encrypt(' ');
 				}
-				positions += snakePos;
 			}
+			positions += snakePos;
+		}
+		user.cloudSession(145492790, function (err, cloud) {
+			cloud.set('☁ size', encrypt(size));
 			cloud.set('☁ snakeData', positions);
 		});
 	});
