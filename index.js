@@ -16,7 +16,7 @@ function encrypt(string) {
 	}
 	return output;
 }
-scratch.UserSession.prompt(function (err, user) {
+scratch.UserSession.load(function (err, user) {
 	if (err) {
 		return err;
 	}
