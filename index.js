@@ -41,6 +41,7 @@ scratch.UserSession.load(function (err, user) {
 			positions += snakePos;
 		}
 		user.cloudSession(145492790, function (err, cloud) {
+			if (err) return err;
 			cloud.set('☁ size', encrypt(size));
 			cloud.set('☁ snakeData', positions);
 		});
